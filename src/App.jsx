@@ -5,6 +5,7 @@ import PrivateRoute from './routes/PrivateRoute';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
+import ForgetPassword from './pages/ForgetPassword';
 
 const App = () => {
   return (
@@ -43,6 +44,7 @@ const App = () => {
             {/* Public routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/forget-password" element={<ForgetPassword />} />
             
             {/* Protected route */}
             <Route 

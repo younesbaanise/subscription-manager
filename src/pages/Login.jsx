@@ -150,6 +150,16 @@ const Login = () => {
             </button>
           </div>
 
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={() => navigate('/forget-password')}
+              className="text-sm text-indigo-600 hover:text-indigo-500"
+            >
+              Forgot your password?
+            </button>
+          </div>
+
           {/* Resend verification button - show if user exists but email not verified */}
           {user && !user.emailVerified && (
             <div className="text-center">
