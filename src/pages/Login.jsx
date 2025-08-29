@@ -15,12 +15,6 @@ const Login = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  // Redirect if already authenticated and email verified
-  useEffect(() => {
-    if (user && user.emailVerified) {
-      navigate('/dashboard');
-    }
-  }, [user, navigate]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -30,12 +24,33 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
+  const validateForm = () => {
     // Check if fields are empty
     if (!formData.email || !formData.password) {
       toast.error('Please enter valid data.');
+      return false;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error('Please enter a valid email address.');
+      return false;
+    }
+
+    // Check password length
+    if (formData.password.length < 8) {
+      toast.error('Password must be at least 8 characters.');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
       return;
     }
 
@@ -60,11 +75,11 @@ const Login = () => {
       
       // Use setTimeout to ensure the auth state has time to update
       setTimeout(() => {
-        navigate('/dashboard');
+        navigate('/dashboard', { replace: true });
       }, 100);
 
     } catch (error) {
-      if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+      if (error.code === 'auth/invalid-credential') {
         toast.error('Invalid email or password.');
       } else if (error.code === 'auth/user-disabled') {
         toast.error('This account has been disabled.');
@@ -88,7 +103,6 @@ const Login = () => {
       await sendEmailVerification(user);
       toast.success('Verification email sent! Check your inbox.');
     } catch (error) {
-      console.error('Resend verification error:', error);
       toast.error('Failed to send verification email. Please try again.');
     } finally {
       setResendLoading(false);

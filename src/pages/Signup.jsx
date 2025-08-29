@@ -67,9 +67,10 @@ const Signup = () => {
         formData.email,
         formData.password
       );
-
-      // Send email verification
-      await sendEmailVerification(userCredential.user);
+      const redirectUrl = `${window.location.origin}/login`;
+      await sendEmailVerification(userCredential.user, {
+        url: redirectUrl
+      });
 
       // Show success message
       toast.success('Signup successful! Verification email sent. If you don\'t see it, check your spam folder.');
@@ -82,17 +83,14 @@ const Signup = () => {
         confirmPassword: ''
       });
 
-      // Navigate to login
-      navigate('/login');
-
     } catch (error) {
-      console.error('Signup error:', error);
-      
-      // Handle specific Firebase errors
+      // Handle specific Firebase errors with meaningful messages
       if (error.code === 'auth/email-already-in-use') {
         toast.error('This email is already in use.');
-      } else if (error.code === 'auth/weak-password') {
-        toast.error('Password is too weak.');
+      } else if (error.code === 'auth/network-request-failed') {
+        toast.error('Network error. Please check your internet connection and try again.');
+      } else if (error.code === 'auth/too-many-requests') {
+        toast.error('Too many signup attempts. Please try again later.');
       } else {
         toast.error('An error occurred during signup. Please try again.');
       }
