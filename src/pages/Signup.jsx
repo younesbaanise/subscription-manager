@@ -47,8 +47,8 @@ const Signup = () => {
     }
 
     // Check password length
-    if (formData.password.length < 8) {
-      toast.error("Password must be at least 8 characters.");
+    if (formData.password.length < 6) {
+      toast.error("Password must be at least 6 characters.");
       return false;
     }
 
