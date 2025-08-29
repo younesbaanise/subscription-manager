@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { auth } from '../services/firebase';
 import { toast } from 'react-hot-toast';
@@ -16,10 +16,11 @@ const Login = () => {
   const { user } = useAuth();
 
   // Redirect if already authenticated and email verified
-  if (user && user.emailVerified) {
-    navigate('/dashboard');
-    return null;
-  }
+  useEffect(() => {
+    if (user && user.emailVerified) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -54,13 +55,15 @@ const Login = () => {
         return;
       }
 
-      // Success
+      // Success - wait a moment for auth state to update
       toast.success('Login successful!');
-      navigate('/dashboard');
+      
+      // Use setTimeout to ensure the auth state has time to update
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 100);
 
     } catch (error) {
-      console.error('Login error:', error);
-      
       if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
         toast.error('Invalid email or password.');
       } else if (error.code === 'auth/user-disabled') {
