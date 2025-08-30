@@ -16,7 +16,7 @@ const SubscriptionCard = ({ subscription }) => {
 
   // Format price for display
   const formatPrice = (price) => {
-    return `$${Number(price).toFixed(2)}`;
+    return `${Number(price).toFixed(2)} MAD`;
   };
 
   // Handle delete subscription
