@@ -92,11 +92,11 @@ const Dashboard = () => {
           </div>
           <div className="bg-white rounded-lg shadow-md p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Monthly Cost</h3>
-            <p className="text-3xl font-bold text-green-600">${totalMonthlyCost.toFixed(2)}</p>
+            <p className="text-3xl font-bold text-green-600">{totalMonthlyCost.toFixed(2)} MAD</p>
           </div>
           <div className="bg-white rounded-lg shadow-md p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Yearly Cost</h3>
-            <p className="text-3xl font-bold text-blue-600">${totalYearlyCost.toFixed(2)}</p>
+            <p className="text-3xl font-bold text-blue-600">{totalYearlyCost.toFixed(2)} MAD</p>
           </div>
         </div>
 

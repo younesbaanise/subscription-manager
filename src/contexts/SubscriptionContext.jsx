@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { ref, push, set, remove, get, query, orderByChild, equalTo, serverTimestamp } from 'firebase/database';
-import { database } from '../services/firebase';
+import { ref, push, set, remove, get, serverTimestamp, onValue, off } from 'firebase/database';
+import { db } from '../services/firebase';
 import { useAuth } from './AuthContext';
 
 const SubscriptionContext = createContext();
@@ -18,7 +18,7 @@ export const SubscriptionProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
-  // Load subscriptions for authenticated user
+  // Load subscriptions for authenticated user with real-time updates
   useEffect(() => {
     if (!user) {
       setSubscriptions([]);
@@ -26,13 +26,12 @@ export const SubscriptionProvider = ({ children }) => {
       return;
     }
 
-    const loadSubscriptions = async () => {
+    setLoading(true);
+    const subscriptionsRef = ref(db, `subscriptions/${user.uid}`);
+    
+    // Set up real-time listener
+    const unsubscribe = onValue(subscriptionsRef, (snapshot) => {
       try {
-        setLoading(true);
-        const subscriptionsRef = ref(database, `subscriptions/${user.uid}`);
-        const subscriptionsQuery = query(subscriptionsRef, orderByChild('createdAt'));
-        
-        const snapshot = await get(subscriptionsQuery);
         const subscriptionsData = [];
         
         if (snapshot.exists()) {
@@ -44,16 +43,35 @@ export const SubscriptionProvider = ({ children }) => {
           });
         }
         
+        // Sort by createdAt timestamp (newest first)
+        subscriptionsData.sort((a, b) => {
+          const aTime = a.createdAt || 0;
+          const bTime = b.createdAt || 0;
+          return bTime - aTime;
+        });
+        
         setSubscriptions(subscriptionsData);
       } catch (error) {
-        console.error('Error loading subscriptions:', error);
-        throw new Error('Failed to load subscriptions. Please try again.');
+        console.error('Error processing subscriptions data:', error);
       } finally {
         setLoading(false);
       }
-    };
+    }, (error) => {
+      console.error('Error loading subscriptions:', error);
+      if (error.message.includes('permission-denied')) {
+        console.error('Access denied. Please check your authentication.');
+      } else if (error.message.includes('Index not defined')) {
+        console.error('Database configuration error. Please contact support.');
+      } else {
+        console.error('Failed to load subscriptions. Please try again.');
+      }
+      setLoading(false);
+    });
 
-    loadSubscriptions();
+    // Cleanup function to remove listener when component unmounts or user changes
+    return () => {
+      off(subscriptionsRef, 'value', unsubscribe);
+    };
   }, [user]);
 
   // Calculate renewal date based on billing cycle
@@ -118,7 +136,7 @@ export const SubscriptionProvider = ({ children }) => {
         createdAt: serverTimestamp()
       };
 
-      const subscriptionsRef = ref(database, `subscriptions/${user.uid}`);
+      const subscriptionsRef = ref(db, `subscriptions/${user.uid}`);
       const newSubscriptionRef = push(subscriptionsRef);
       await set(newSubscriptionRef, newSubscription);
 
@@ -153,7 +171,7 @@ export const SubscriptionProvider = ({ children }) => {
         isActive: subscriptionData.isActive !== undefined ? subscriptionData.isActive : true
       };
 
-      const subscriptionRef = ref(database, `subscriptions/${user.uid}/${subscriptionId}`);
+      const subscriptionRef = ref(db, `subscriptions/${user.uid}/${subscriptionId}`);
       await set(subscriptionRef, updatedSubscription);
     } catch (error) {
       console.error('Error updating subscription:', error);
@@ -172,7 +190,7 @@ export const SubscriptionProvider = ({ children }) => {
     }
 
     try {
-      const subscriptionRef = ref(database, `subscriptions/${user.uid}/${subscriptionId}`);
+      const subscriptionRef = ref(db, `subscriptions/${user.uid}/${subscriptionId}`);
       await remove(subscriptionRef);
     } catch (error) {
       console.error('Error deleting subscription:', error);
@@ -191,7 +209,7 @@ export const SubscriptionProvider = ({ children }) => {
     }
 
     try {
-      const subscriptionRef = ref(database, `subscriptions/${user.uid}/${subscriptionId}`);
+      const subscriptionRef = ref(db, `subscriptions/${user.uid}/${subscriptionId}`);
       const snapshot = await get(subscriptionRef);
       
       if (!snapshot.exists()) {
@@ -219,7 +237,7 @@ export const SubscriptionProvider = ({ children }) => {
     }
 
     try {
-      const subscriptionRef = ref(database, `subscriptions/${user.uid}/${subscriptionId}/isActive`);
+      const subscriptionRef = ref(db, `subscriptions/${user.uid}/${subscriptionId}/isActive`);
       await set(subscriptionRef, isActive);
     } catch (error) {
       console.error('Error toggling subscription status:', error);
