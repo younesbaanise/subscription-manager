@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { toast } from "react-hot-toast";
 import { useState, useMemo } from "react";
 import SubscriptionCard from "../components/SubscriptionCard";
+import { FiPlus, FiLogOut, FiFilter, FiX, FiTrendingUp, FiDollarSign, FiCalendar, FiUser } from "react-icons/fi";
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -108,68 +109,121 @@ const Dashboard = () => {
       return total;
     }, 0);
 
+  // Check if any filters are active
+  const hasActiveFilters = Object.values(filters).some(value => value !== '');
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading subscriptions...</p>
+          <p className="mt-4 text-gray-600">Loading your subscriptions...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-            <p className="text-gray-600 mt-1">Welcome back, {user?.email}</p>
-          </div>
-          <div className="flex space-x-4">
-            <button
-              onClick={handleAddSubscription}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-            >
-              Add Subscription
-            </button>
-            <button
-              onClick={handleLogout}
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-            >
-              Logout
-            </button>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
+            <div className="flex items-center space-x-3 sm:space-x-4">
+              <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-indigo-600 rounded-xl flex-shrink-0">
+                <FiTrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">Dashboard</h1>
+                <p className="text-gray-600 flex items-center text-sm sm:text-base">
+                  <FiUser className="w-3 h-3 sm:w-4 sm:h-4 mr-1 flex-shrink-0" />
+                  <span className="truncate">{user?.email}</span>
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <button
+                onClick={handleAddSubscription}
+                className="flex items-center px-3 py-2 sm:px-4 sm:py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs sm:text-sm font-medium transition-colors flex-1 sm:flex-none justify-center"
+              >
+                <FiPlus className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Add Subscription</span>
+                <span className="sm:hidden">Add</span>
+              </button>
+              <button
+                onClick={handleLogout}
+                className="flex items-center px-3 py-2 sm:px-4 sm:py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs sm:text-sm font-medium transition-colors flex-1 sm:flex-none justify-center"
+              >
+                <FiLogOut className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Logout</span>
+                <span className="sm:hidden">Logout</span>
+              </button>
+            </div>
           </div>
         </div>
+      </div>
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Total Subscriptions</h3>
-            <p className="text-3xl font-bold text-indigo-600">{filteredSubscriptions.length}</p>
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Total Subscriptions</p>
+                <p className="text-3xl font-bold text-gray-900 mt-1">{filteredSubscriptions.length}</p>
+              </div>
+              <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
+                <FiTrendingUp className="w-6 h-6 text-indigo-600" />
+              </div>
+            </div>
           </div>
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Monthly Cost</h3>
-            <p className="text-3xl font-bold text-green-600">{totalMonthlyCost.toFixed(2)} MAD</p>
+          
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Monthly Cost</p>
+                <p className="text-3xl font-bold text-green-600 mt-1">{totalMonthlyCost.toFixed(2)} MAD</p>
+              </div>
+              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                <FiDollarSign className="w-6 h-6 text-green-600" />
+              </div>
+            </div>
           </div>
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Yearly Cost</h3>
-            <p className="text-3xl font-bold text-blue-600">{totalYearlyCost.toFixed(2)} MAD</p>
+          
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Yearly Cost</p>
+                <p className="text-3xl font-bold text-blue-600 mt-1">{totalYearlyCost.toFixed(2)} MAD</p>
+              </div>
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                <FiCalendar className="w-6 h-6 text-blue-600" />
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Filters Section */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4 sm:mb-0">Filters</h2>
-            <button
-              onClick={clearFilters}
-              className="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-            >
-              Clear All Filters
-            </button>
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+            <div className="flex items-center space-x-2">
+              <FiFilter className="w-5 h-5 text-gray-600" />
+              <h2 className="text-xl font-semibold text-gray-900">Filters</h2>
+              {hasActiveFilters && (
+                <span className="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-full">
+                  Active
+                </span>
+              )}
+            </div>
+            {hasActiveFilters && (
+              <button
+                onClick={clearFilters}
+                className="flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+              >
+                <FiX className="w-4 h-4 mr-1" />
+                Clear All
+              </button>
+            )}
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -182,7 +236,7 @@ const Dashboard = () => {
                 id="category-filter"
                 value={filters.category}
                 onChange={(e) => handleFilterChange('category', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
               >
                 <option value="">All Categories</option>
                 <option value="Entertainment">Entertainment</option>
@@ -204,7 +258,7 @@ const Dashboard = () => {
                 id="billing-cycle-filter"
                 value={filters.billingCycle}
                 onChange={(e) => handleFilterChange('billingCycle', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
               >
                 <option value="">All Billing Cycles</option>
                 <option value="Monthly">Monthly</option>
@@ -221,7 +275,7 @@ const Dashboard = () => {
                 id="payment-method-filter"
                 value={filters.paymentMethod}
                 onChange={(e) => handleFilterChange('paymentMethod', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
               >
                 <option value="">All Payment Methods</option>
                 <option value="Card">Card</option>
@@ -239,7 +293,7 @@ const Dashboard = () => {
                 id="status-filter"
                 value={filters.status}
                 onChange={(e) => handleFilterChange('status', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
               >
                 <option value="">All Status</option>
                 <option value="active">Active</option>
@@ -251,28 +305,36 @@ const Dashboard = () => {
 
         {/* Subscriptions List */}
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Subscriptions</h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">Your Subscriptions</h2>
+            {filteredSubscriptions.length > 0 && (
+              <p className="text-sm text-gray-600">
+                Showing {filteredSubscriptions.length} of {subscriptions.length} subscriptions
+              </p>
+            )}
+          </div>
           
           {filteredSubscriptions.length === 0 ? (
-            <div className="bg-white rounded-lg shadow-md p-12 text-center">
-              <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-12 text-center">
+              <div className="mx-auto w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+                <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                 </svg>
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
                 {subscriptions.length === 0 ? 'No subscriptions yet' : 'No subscriptions match your filters'}
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-600 mb-8 max-w-md mx-auto">
                 {subscriptions.length === 0 
-                  ? 'Start tracking your subscriptions to manage your expenses better.'
+                  ? 'Start tracking your subscriptions to manage your expenses better and never miss a renewal again.'
                   : 'Try adjusting your filters to see more results.'
                 }
               </p>
               <button
                 onClick={subscriptions.length === 0 ? handleAddSubscription : clearFilters}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md text-sm font-medium"
+                className="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors"
               >
+                <FiPlus className="w-4 h-4 mr-2" />
                 {subscriptions.length === 0 ? 'Add Your First Subscription' : 'Clear Filters'}
               </button>
             </div>
