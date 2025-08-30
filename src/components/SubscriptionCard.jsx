@@ -31,7 +31,7 @@ const SubscriptionCard = ({ subscription }) => {
       toast.error(error.message || 'Failed to delete subscription.');
     } finally {
       setIsDeleting(false);
-    }
+    }git
   };
 
   // Handle toggle active status
