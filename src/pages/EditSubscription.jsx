@@ -72,12 +72,41 @@ const EditSubscription = () => {
     loadSubscription();
   }, [id, getSubscription, navigate]);
 
+  // Calculate renewal date based on billing cycle
+  const calculateRenewalDate = (billingCycle, customDate = null) => {
+    if (customDate) {
+      return customDate;
+    }
+
+    const now = new Date();
+    const renewalDate = new Date(now);
+
+    if (billingCycle === 'Monthly') {
+      renewalDate.setMonth(renewalDate.getMonth() + 1);
+    } else if (billingCycle === 'Yearly') {
+      renewalDate.setFullYear(renewalDate.getFullYear() + 1);
+    }
+
+    // Format date for input field (YYYY-MM-DD)
+    return renewalDate.toISOString().split('T')[0];
+  };
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
+    
+    setFormData(prev => {
+      const newData = {
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value
+      };
+
+      // If billing cycle changed, recalculate renewal date
+      if (name === 'billingCycle') {
+        newData.renewalDate = calculateRenewalDate(value);
+      }
+
+      return newData;
+    });
   };
 
   const handleSubmit = async (e) => {
