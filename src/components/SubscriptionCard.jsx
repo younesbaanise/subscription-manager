@@ -50,7 +50,7 @@ const SubscriptionCard = ({ subscription }) => {
   };
 
   return (
-    <div className={`bg-white rounded-lg shadow-md p-6 border-l-4 ${
+    <div className={`bg-white rounded-lg shadow-md p-6 border-l-4 flex flex-col h-full ${
       subscription.isActive ? 'border-green-500' : 'border-gray-400'
     }`}>
       <div className="flex justify-between items-start mb-4">
@@ -103,14 +103,14 @@ const SubscriptionCard = ({ subscription }) => {
         </div>
       </div>
 
-      {subscription.notes && (
-        <div className="mb-4">
-          <p className="text-sm text-gray-500">Notes</p>
-          <p className="text-sm text-gray-700">{subscription.notes}</p>
-        </div>
-      )}
+      <div className="mb-4 flex-grow">
+        <p className="text-sm text-gray-500">Notes</p>
+        <p className="text-sm text-gray-700">
+          {subscription.notes ? subscription.notes : 'No notes provided'}
+        </p>
+      </div>
 
-      <div className="flex justify-end space-x-2">
+      <div className="flex justify-end space-x-2 mt-auto">
         <button
           onClick={handleEdit}
           className="px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-md hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
