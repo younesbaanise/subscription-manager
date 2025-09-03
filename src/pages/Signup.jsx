@@ -362,7 +362,7 @@ const Signup = () => {
                 <button
                   type="submit"
                   disabled={loading || googleLoading}
-                  className="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
                   {loading ? (
                     <div className="flex items-center">
@@ -393,7 +393,7 @@ const Signup = () => {
                 type="button"
                 onClick={handleGoogleSignUp}
                 disabled={googleLoading}
-                className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 {googleLoading ? (
                   <div className="flex items-center">
@@ -432,7 +432,7 @@ const Signup = () => {
                   <button
                     type="button"
                     onClick={() => navigate("/login")}
-                    className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
+                    className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors cursor-pointer"
                   >
                     Sign in
                   </button>

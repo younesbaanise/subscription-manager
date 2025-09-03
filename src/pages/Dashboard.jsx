@@ -5,6 +5,7 @@ import { toast } from "react-hot-toast";
 import { useState, useMemo } from "react";
 import SubscriptionCard from "../components/SubscriptionCard";
 import { FiPlus, FiLogOut, FiFilter, FiX, FiTrendingUp, FiDollarSign, FiCalendar, FiUser } from "react-icons/fi";
+import { FaMoneyBill } from "react-icons/fa";
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -144,7 +145,7 @@ const Dashboard = () => {
             <div className="flex items-center space-x-2 sm:space-x-3">
               <button
                 onClick={handleAddSubscription}
-                className="flex items-center px-3 py-2 sm:px-4 sm:py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs sm:text-sm font-medium transition-colors flex-1 sm:flex-none justify-center"
+                className="flex items-center px-3 py-2 sm:px-4 sm:py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs sm:text-sm font-medium transition-colors flex-1 sm:flex-none justify-center cursor-pointer"
               >
                 <FiPlus className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">Add Subscription</span>
@@ -152,7 +153,7 @@ const Dashboard = () => {
               </button>
               <button
                 onClick={handleLogout}
-                className="flex items-center px-3 py-2 sm:px-4 sm:py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs sm:text-sm font-medium transition-colors flex-1 sm:flex-none justify-center"
+                className="flex items-center px-3 py-2 sm:px-4 sm:py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs sm:text-sm font-medium transition-colors flex-1 sm:flex-none justify-center cursor-pointer"
               >
                 <FiLogOut className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">Logout</span>
@@ -185,7 +186,7 @@ const Dashboard = () => {
                 <p className="text-3xl font-bold text-green-600 mt-1">{totalMonthlyCost.toFixed(2)} MAD</p>
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                <FiDollarSign className="w-6 h-6 text-green-600" />
+                <FaMoneyBill className="w-6 h-6 text-green-600" />
               </div>
             </div>
           </div>
@@ -218,7 +219,7 @@ const Dashboard = () => {
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
-                className="flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                className="flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer"
               >
                 <FiX className="w-4 h-4 mr-1" />
                 Clear All
@@ -332,7 +333,7 @@ const Dashboard = () => {
               </p>
               <button
                 onClick={subscriptions.length === 0 ? handleAddSubscription : clearFilters}
-                className="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors"
+                className="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors cursor-pointer"
               >
                 <FiPlus className="w-4 h-4 mr-2" />
                 {subscriptions.length === 0 ? 'Add Your First Subscription' : 'Clear Filters'}

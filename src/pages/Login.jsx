@@ -8,7 +8,7 @@ import { auth, googleProvider } from "../services/firebase";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
-import { FiCheck, FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight, FiUser, FiShield, FiDollarSign, FiCalendar, FiKey } from "react-icons/fi";
+import { FiCheck, FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight, FiUser, FiShield, FiDollarSign, FiCalendar, FiKey, FiTrendingUp } from "react-icons/fi";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -177,7 +177,7 @@ const Login = () => {
             {/* Simple Welcome Section */}
             <div className="text-center mb-12">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl mb-6">
-                <FiShield className="w-8 h-8 text-white" />
+                <FiTrendingUp className="w-8 h-8 text-white" />
               </div>
               <h1 className="text-4xl font-bold text-gray-900 mb-4">
                 Welcome Back
@@ -314,7 +314,7 @@ const Login = () => {
                   <button
                     type="button"
                     onClick={() => navigate("/forget-password")}
-                    className="text-sm font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
+                    className="text-sm font-medium text-indigo-600 hover:text-indigo-500 transition-colors cursor-pointer"
                   >
                     Forgot your password?
                   </button>
@@ -324,7 +324,7 @@ const Login = () => {
                 <button
                   type="submit"
                   disabled={loading || googleLoading}
-                  className="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
                   {loading ? (
                     <div className="flex items-center">
@@ -355,7 +355,7 @@ const Login = () => {
                 type="button"
                 onClick={handleGoogleSignIn}
                 disabled={googleLoading}
-                className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 {googleLoading ? (
                   <div className="flex items-center">
@@ -394,7 +394,7 @@ const Login = () => {
                     type="button"
                     onClick={handleResendVerification}
                     disabled={resendLoading}
-                    className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
                     <FiKey className="w-4 h-4 mr-2" />
                     {resendLoading ? "Sending..." : "Resend verification email"}
@@ -409,7 +409,7 @@ const Login = () => {
                   <button
                     type="button"
                     onClick={() => navigate("/signup")}
-                    className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
+                    className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors cursor-pointer"
                   >
                     Sign up
                   </button>

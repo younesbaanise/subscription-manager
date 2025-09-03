@@ -3,7 +3,15 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../services/firebase";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
-import { FiMail, FiArrowLeft, FiShield, FiCheck, FiDollarSign, FiCalendar } from "react-icons/fi";
+import {
+  FiMail,
+  FiArrowLeft,
+  FiShield,
+  FiCheck,
+  FiDollarSign,
+  FiCalendar,
+  FiTrendingUp,
+} from "react-icons/fi";
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
@@ -48,18 +56,18 @@ const ForgetPassword = () => {
     {
       icon: <FiDollarSign className="w-5 h-5" />,
       title: "Track Your Spending",
-      description: "Monitor all your subscription costs in one place"
+      description: "Monitor all your subscription costs in one place",
     },
     {
       icon: <FiCalendar className="w-5 h-5" />,
       title: "Never Miss Renewals",
-      description: "Get notified before your subscriptions renew"
+      description: "Get notified before your subscriptions renew",
     },
     {
       icon: <FiShield className="w-5 h-5" />,
       title: "Manage Easily",
-      description: "Cancel, pause, or modify subscriptions effortlessly"
-    }
+      description: "Cancel, pause, or modify subscriptions effortlessly",
+    },
   ];
 
   return (
@@ -71,28 +79,34 @@ const ForgetPassword = () => {
             {/* Simple Welcome Section */}
             <div className="text-center mb-12">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl mb-6">
-                <FiShield className="w-8 h-8 text-white" />
+                <FiTrendingUp className="w-8 h-8 text-white" />
               </div>
               <h1 className="text-4xl font-bold text-gray-900 mb-4">
                 Forgot Password?
               </h1>
               <p className="text-lg text-gray-600 leading-relaxed">
-                No worries! We'll help you get back to managing your subscriptions
+                No worries! We'll help you get back to managing your
+                subscriptions
               </p>
             </div>
 
             {/* Simple Benefits List */}
             <div className="space-y-4 mb-8">
               {benefits.map((benefit, index) => (
-                <div key={index} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-white/50 transition-colors">
+                <div
+                  key={index}
+                  className="flex items-center space-x-3 p-3 rounded-lg hover:bg-white/50 transition-colors"
+                >
                   <div className="flex-shrink-0 w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
-                    <div className="text-indigo-600">
-                      {benefit.icon}
-                    </div>
+                    <div className="text-indigo-600">{benefit.icon}</div>
                   </div>
                   <div>
-                    <h3 className="font-medium text-gray-900">{benefit.title}</h3>
-                    <p className="text-sm text-gray-600">{benefit.description}</p>
+                    <h3 className="font-medium text-gray-900">
+                      {benefit.title}
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      {benefit.description}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -100,7 +114,9 @@ const ForgetPassword = () => {
 
             {/* Simple Trust Indicators */}
             <div className="bg-white/60 rounded-xl p-6 border border-white/20">
-              <h3 className="font-semibold text-gray-900 mb-4 text-center">Why choose us?</h3>
+              <h3 className="font-semibold text-gray-900 mb-4 text-center">
+                Why choose us?
+              </h3>
               <div className="space-y-3">
                 <div className="flex items-center space-x-3">
                   <FiCheck className="w-5 h-5 text-green-500" />
@@ -128,7 +144,8 @@ const ForgetPassword = () => {
                 Forgot Password?
               </h1>
               <p className="text-gray-600 mb-6">
-                No worries! We'll help you get back to managing your subscriptions
+                No worries! We'll help you get back to managing your
+                subscriptions
               </p>
             </div>
 
@@ -141,14 +158,18 @@ const ForgetPassword = () => {
                   Reset your password
                 </h2>
                 <p className="text-gray-600">
-                  Enter your email address and we'll send you a link to reset your password
+                  Enter your email address and we'll send you a link to reset
+                  your password
                 </p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Email Field */}
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Email address
                   </label>
                   <div className="relative">
@@ -173,7 +194,7 @@ const ForgetPassword = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
                   {loading ? (
                     <div className="flex items-center">
@@ -181,9 +202,7 @@ const ForgetPassword = () => {
                       Sending reset link...
                     </div>
                   ) : (
-                    <div className="flex items-center">
-                      Send Reset Link
-                    </div>
+                    <div className="flex items-center">Send Reset Link</div>
                   )}
                 </button>
               </form>
@@ -193,7 +212,7 @@ const ForgetPassword = () => {
                 <button
                   type="button"
                   onClick={() => navigate("/login")}
-                  className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors"
+                  className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors cursor-pointer"
                 >
                   <FiArrowLeft className="w-4 h-4 mr-2" />
                   Back to login
@@ -207,7 +226,7 @@ const ForgetPassword = () => {
                   <button
                     type="button"
                     onClick={() => navigate("/signup")}
-                    className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
+                    className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors cursor-pointer"
                   >
                     Create a new account
                   </button>
